@@ -1,0 +1,31 @@
+name: Zip and Post Repo
+
+on:
+  push:
+    branches:
+      - '**'
+
+jobs:
+  zip-and-post:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install zip and curl
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y zip curl
+
+      - name: Zip the repository
+        run: |
+          zip -r repo.zip .
+
+      - name: Make POST request with ZIP file
+        env:
+          POST_URL: ${{ secrets.POST_URL }}
+        run: |
+          curl -X POST -H "Content-Type: application/zip" \
+          --data-binary "@repo.zip" \
+          "$POST_URL"

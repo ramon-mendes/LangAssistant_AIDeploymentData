@@ -24,8 +24,11 @@ jobs:
 
       - name: Make POST request with ZIP file
         env:
-          POST_URL: ${{ secrets.POST_URL }}
+          URL_LANG_ASSIST_AZURE: ${{ secrets.URL_LANG_ASSIST_AZURE }}
+          BRANCH_NAME: ${{ github.ref_name }}
         run: |
           curl -X POST -H "Content-Type: application/zip" \
           --data-binary "@repo.zip" \
-          "$POST_URL"
+          "$URL_LANG_ASSIST_AZURE/api/GitHubDeployment/DataUpdated?branch=$BRANCH_NAME"
+
+

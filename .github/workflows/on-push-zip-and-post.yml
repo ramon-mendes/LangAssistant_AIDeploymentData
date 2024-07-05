@@ -27,8 +27,9 @@ jobs:
           URL_LANG_ASSIST_AZURE: ${{ secrets.URL_LANG_ASSIST_AZURE }}
           BRANCH_NAME: ${{ github.ref_name }}
         run: |
-          curl -X POST -H "Content-Type: application/zip" \
+          RESPONSE=$(curl -s -o response.txt -w "%{http_code}" -X POST -H "Content-Type: application/zip" \
           --data-binary "@repo.zip" \
-          "$URL_LANG_ASSIST_AZURE/api/GitHubDeployment/DataUpdated?branch=$BRANCH_NAME"
-
-
+          "$URL_LANG_ASSIST_AZURE/api/GitHubDeployment/DataUpdated?branch=$BRANCH_NAME")
+          echo "HTTP Response Code: $RESPONSE"
+          echo "Response Content:"
+          cat response.txt

@@ -1,6 +1,13 @@
 name: Zip and Post Repo
 
 on:
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'
+        required: true
+        default: 'warning'
+        
   push:
     branches:
       - '**'
